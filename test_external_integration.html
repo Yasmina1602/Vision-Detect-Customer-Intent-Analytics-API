@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXEVISION | Smart AI E-Commerce Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --surface: #111827;
+            --surface-elevated: #1a2234;
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --primary: #3b82f6;
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        /* Top Announcement Bar */
+        .announcement-bar {
+            background: linear-gradient(90deg, #1e3a8a, #4338ca, #3b82f6);
+            color: #ffffff;
+            font-size: 13px;
+            padding: 9px 20px;
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .announcement-bar a {
+            color: #fde047;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--surface-border);
+            padding: 16px 24px;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .brand-logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: #38bdf8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ASOSIY QIDIRUV PANELI VA RASM QIDIRISH TUGMASI (USER REQUEST) */
+        .search-container {
+            flex: 1;
+            max-width: 580px;
+            position: relative;
+        }
+
+        .search-bar-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            padding: 5px 6px 5px 18px;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-bar-wrapper:focus-within {
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .search-icon {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-right: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            padding: 7px 0;
+        }
+
+        .search-input::placeholder {
+            color: #64748b;
+        }
+
+        /* RASM ORQALI QIDIRISH TUGMASI - QIDIRUV MATNINING YONIDA */
+        .camera-search-btn {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border: none;
+            color: #ffffff;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+            white-space: nowrap;
+        }
+
+        .camera-search-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 18px rgba(124, 58, 237, 0.6);
+            background: linear-gradient(135deg, #1d4ed8, #6d28d9);
+        }
+
+        .camera-search-btn svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--surface-border);
+            color: var(--text-main);
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #38bdf8;
+        }
+
+        .cart-btn {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            padding: 9px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .cart-btn:hover {
+            background: rgba(16, 185, 129, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .cart-badge {
+            background: #10b981;
+            color: #ffffff;
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 12px;
+            font-weight: 800;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            max-width: 1280px;
+            margin: 28px auto 0;
+            padding: 0 24px;
+        }
+
+        .hero-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.95));
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: var(--radius-lg);
+            padding: 36px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.25), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-info h2 {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-info p {
+            color: var(--text-muted);
+            font-size: 15px;
+            max-width: 580px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hero-sample-chips {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sample-chip {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 7px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sample-chip:hover {
+            background: rgba(59, 130, 246, 0.25);
+            border-color: #3b82f6;
+            color: #93c5fd;
+            transform: translateY(-2px);
+        }
+
+        /* Category Filter Tabs */
+        .category-nav {
+            max-width: 1280px;
+            margin: 28px auto 0;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .category-pills {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .cat-pill {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            padding: 9px 18px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .cat-pill:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .cat-pill.active {
+            background: var(--primary-gradient);
+            color: #ffffff;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .product-count-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Products Grid */
+        .store-container {
+            max-width: 1280px;
+            margin: 24px auto 60px;
+            padding: 0 24px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .product-image-box {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            background: #1e293b;
+            overflow: hidden;
+        }
+
+        .product-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image-box img {
+            transform: scale(1.08);
+        }
+
+        .badge-category {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #93c5fd;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: capitalize;
+        }
+
+        .badge-color {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            font-size: 11px;
+            padding: 4px 9px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .color-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .product-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #f8fafc;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            height: 42px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            line-height: 1.5;
+            height: 36px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--surface-border);
+        }
+
+        .product-price {
+            font-size: 19px;
+            font-weight: 800;
+            color: #38bdf8;
+        }
+
+        .btn-add-cart {
+            background: var(--primary-gradient);
+            border: none;
+            color: #ffffff;
+            padding: 9px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add-cart:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.45);
+        }
+
+        /* Slide-out Cart Drawer */
+        .cart-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s;
+        }
+
+        .cart-drawer-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 420px;
+            background: #111827;
+            border-left: 1px solid var(--surface-border);
+            z-index: 2001;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .cart-drawer-overlay.active .cart-drawer {
+            transform: translateX(0);
+        }
+
+        .cart-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .cart-drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--surface-border);
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-drawer-footer {
+            padding-top: 16px;
+            border-top: 1px solid var(--surface-border);
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: #ffffff;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-checkout:hover {
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: #ffffff;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-left: 5px solid #10b981;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 868px) {
+            .header-container { flex-direction: column; align-items: stretch; }
+            .search-container { max-width: 100%; }
+            .hero-card { flex-direction: column; text-align: center; }
+            .hero-info p { margin: 0 auto 20px; }
+            .hero-sample-chips { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Yuqori e'lon paneli -->
+    <div class="announcement-bar">
+        <span>✨ <b>Yangi avlod:</b> AI Rasm orqali qidiruv integratsiyasi faollashtirildi!</span>
+        <span>•</span>
+        <a href="/" target="_blank">📊 Marketing Analitikani Ko'rish</a>
+        <span>•</span>
+        <a href="/api-playground" onclick="event.preventDefault(); window.location.href='/?tab=api'">⚡ API Sinov Maydoni</a>
+    </div>
+
+    <!-- Asosiy Header -->
+    <header class="header">
+        <div class="header-container">
+            <!-- Brand -->
+            <div class="brand" onclick="window.location.reload()">
+                <div class="brand-logo-icon">🛍️</div>
+                <div class="brand-text">
+                    <h1>LUXEVISION</h1>
+                    <span>Smart AI Store</span>
+                </div>
+            </div>
+
+            <!-- ASOSIY QIDIRUV VA UNING YONIDAGI RASM ORQALI QIDIRISH TUGMASI -->
+            <div class="search-container">
+                <div class="search-bar-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="storeSearchInput" class="search-input" placeholder="Nomi yoki rangi bo'yicha qidiring (masalan: ko'k krossovka, jinsi)...">
+                    
+                    <!-- USER TALABI: Matn qidirish joyining yonida kamera tugmasi -->
+                    <button id="cameraSearchBtn" class="camera-search-btn" title="Rasm orqali tovar qidirish (AI Gemini)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 15.2a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4z"/>
+                            <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                        </svg>
+                        <span>Rasm orqali</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Header Tugmalari -->
+            <div class="header-actions">
+                <a href="/" class="nav-btn" title="Dashboard">
+                    <span>📊</span>
+                    <span>Marketing Dashboard</span>
+                </a>
+                <button class="cart-btn" id="openCartBtn">
+                    <span>🛒</span>
+                    <span>Savat</span>
+                    <span class="cart-badge" id="cartCountBadge">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-card">
+            <div class="hero-info">
+                <h2>Ko'zingizga yoqqan kiyim yoki poyabzal bormi?</h2>
+                <p>Rasmini shunchaki ko'rsating — Google Gemini AI modeli uning rangi, turkumi va uslubini soniya ichida aniqlab, katalogimizdagi eng mos tovarlarni topadi!</p>
+                
+                <div class="hero-sample-chips">
+                    <span style="font-size:12px; color:#94a3b8; font-weight:600;">Namunalar bilan sinang:</span>
+                    <span class="sample-chip" onclick="searchSample('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600', 'Nike Air Pegasus')">👟 Nike Krossovka</span>
+                    <span class="sample-chip" onclick="searchSample('https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600', 'Ko\'k Jinsi Kurtka')">🧥 Jinsi Kurtka</span>
+                    <span class="sample-chip" onclick="searchSample('https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600', 'Charm Sumka')">👜 Charm Sumka</span>
+                    <span class="sample-chip" onclick="searchSample('https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600', 'AirPods Max')">🎧 AirPods Max</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kategoriya Filtrlari -->
+    <div class="category-nav">
+        <div class="category-pills">
+            <button class="cat-pill active" data-cat="all">✨ Barchasi (15)</button>
+            <button class="cat-pill" data-cat="poyabzal">👟 Poyabzallar</button>
+            <button class="cat-pill" data-cat="kiyim">👕 Kiyimlar</button>
+            <button class="cat-pill" data-cat="aksessuar">👜 Aksessuarlar</button>
+            <button class="cat-pill" data-cat="elektronika">🎧 Elektronika</button>
+        </div>
+        <div class="product-count-label" id="productCountLabel">15 ta mahsulot ko'rsatilmoqda</div>
+    </div>
+
+    <!-- Mahsulotlar Ro'yxati -->
+    <main class="store-container">
+        <div class="products-grid" id="productsGrid">
+            <!-- JavaScript orqali to'ldiriladi -->
+        </div>
+    </main>
+
+    <!-- Savat Paneli (Drawer) -->
+    <div class="cart-drawer-overlay" id="cartOverlay">
+        <div class="cart-drawer">
+            <div class="cart-drawer-header">
+                <h3>🛒 Xarid Savatingiz (<span id="cartDrawerCount">0</span>)</h3>
+                <button id="closeCartBtn" style="background:transparent; border:none; color:#9ca3af; font-size:22px; cursor:pointer;">&times;</button>
+            </div>
+            <div class="cart-drawer-items" id="cartItemsList">
+                <div style="text-align:center; color:#64748b; margin-top:40px;">Savatingiz hozircha bo'sh. Mahsulotlarni tanlang!</div>
+            </div>
+            <div class="cart-drawer-footer">
+                <div class="cart-total-row">
+                    <span>Jami summa:</span>
+                    <span id="cartTotalPrice" style="color:#38bdf8;">$0.00</span>
+                </div>
+                <button class="btn-checkout" id="checkoutBtn" onclick="checkoutOrder()">Xaridni Rasmiylashtirish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirishnoma (Toast) -->
+    <div class="toast" id="storeToast">
+        <span>✅</span>
+        <span id="toastMessage">Mahsulot savatga qo'shildi!</span>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- VIDJET SKRIPTI: BARCHA SAHIFALAR UCHUN YAGONA INTEGRATSIYA -->
+    <!-- ======================================================== -->
+    <script src="/static/vision-widget.js" 
+            data-api="http://127.0.0.1:8000" 
+            data-show-floating="true"
+            data-attach-to="#cameraSearchBtn"></script>
+
+    <script>
+        // Namunaviy 15 ta tovar ro'yxati (API offline bo'lganda ham kafolatlangan ko'rsatish uchun)
+        let ALL_PRODUCTS = [
+            {
+                id: 7,
+                name: "Nike Air Zoom Pegasus Ko'k Krossovka",
+                category: "poyabzal",
+                color: "ko'k",
+                color_hex: "#2563eb",
+                price: 120.0,
+                description: "Erkaklar va ayollar uchun qulay sport yugurish krossovkasi. Moviy va ko'k rang uyg'unligi.",
+                image_url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+                tags: "poyabzal, krossovka, ko'k, sport, nike, yugurish"
+            },
+            {
+                id: 8,
+                name: "Adidas Ultraboost Qora Krossovka",
+                category: "poyabzal",
+                color: "qora",
+                color_hex: "#111827",
+                price: 150.0,
+                description: "Kundalik kiyish uchun qora sport krossovkasi, amortizatsiyali qulay taglik bilan.",
+                image_url: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=600",
+                tags: "poyabzal, krossovka, qora, sport, adidas, yengil"
+            },
+            {
+                id: 9,
+                name: "Klassik Qora Charm Tufli",
+                category: "poyabzal",
+                color: "qora",
+                color_hex: "#1f2937",
+                price: 85.0,
+                description: "Erkaklar uchun rasmiy klassik qora tabiiy charm tufli, kostyumlar uchun ideal.",
+                image_url: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=600",
+                tags: "poyabzal, tufli, qora, charm, klassik, erkaklar, rasmiy"
+            },
+            {
+                id: 10,
+                name: "Puma White Star Oq Krossovka",
+                category: "poyabzal",
+                color: "oq",
+                color_hex: "#f8fafc",
+                price: 95.0,
+                description: "Zamonaviy shahar uslubidagi oq krossovka, har qanday kiyimga mos keladi.",
+                image_url: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600",
+                tags: "poyabzal, krossovka, oq, puma, kundalik, sport"
+            },
+            {
+                id: 11,
+                name: "Oq Paxtali Erkaklar Futbolkasi",
+                category: "kiyim",
+                color: "oq",
+                color_hex: "#ffffff",
+                price: 25.0,
+                description: "100% paxtadan tayyorlangan yozgi nafas oluvchi qulay oq futbolka.",
+                image_url: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600",
+                tags: "kiyim, futbolka, oq, paxta, yozgi, asosiy"
+            },
+            {
+                id: 12,
+                name: "Ko'k Jinsi Kurtka (Denim)",
+                category: "kiyim",
+                color: "ko'k",
+                color_hex: "#1d4ed8",
+                price: 65.0,
+                description: "Klassik ko'k rangli jinsi kurtka, qalin sifatli paxta denim matosi.",
+                image_url: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=600",
+                tags: "kiyim, kurtka, jinsi, ko'k, denim, bahorgi"
+            },
+            {
+                id: 13,
+                name: "Qizil Yozgi Ayollar Ko'ylagi",
+                category: "kiyim",
+                color: "qizil",
+                color_hex: "#dc2626",
+                price: 55.0,
+                description: "Yengil va nafis qizil ipak ko'ylak, tantanalar va yozgi sayrlar uchun.",
+                image_url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=600",
+                tags: "kiyim, koylak, ayollar, qizil, yozgi, nafis"
+            },
+            {
+                id: 14,
+                name: "Sariq Qishki Issiq Kurtka (Puffer)",
+                category: "kiyim",
+                color: "sariq",
+                color_hex: "#eab308",
+                price: 110.0,
+                description: "Yorqin sariq rangli, sovuq va shamoldan himoyalovchi zamonaviy qishki kurtka.",
+                image_url: "https://images.unsplash.com/photo-1544923246-77307dd654cb?w=600",
+                tags: "kiyim, kurtka, sariq, qishki, issiq, puffer"
+            },
+            {
+                id: 15,
+                name: "Klassik Bej Rangli Kuzgi Trench Palto",
+                category: "kiyim",
+                color: "bej",
+                color_hex: "#d4a373",
+                price: 135.0,
+                description: "Ayollar uchun bej rangli uzun suv o'tkazmaydigan klassik kuzgi palto.",
+                image_url: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600",
+                tags: "kiyim, palto, trench, bej, kuzgi, klassik"
+            },
+            {
+                id: 16,
+                name: "Charm Ayollar Qo'l Sumkasi Jigarrang",
+                category: "aksessuar",
+                color: "jigarrang",
+                color_hex: "#78350f",
+                price: 90.0,
+                description: "Ayollar uchun tabiiy charm qo'l sumkasi, qulay cho'ntaklar va tasmali.",
+                image_url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600",
+                tags: "aksessuar, sumka, qo'l sumkasi, ayollar, charm, jigarrang"
+            },
+            {
+                id: 17,
+                name: "Ray-Ban Qora Quyosh Ko'zoynagi",
+                category: "aksessuar",
+                color: "qora",
+                color_hex: "#0f172a",
+                price: 75.0,
+                description: "UV400 ultrabinafsha nurlaridan himoyalovchi zamonaviy qora quyosh ko'zoynagi.",
+                image_url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600",
+                tags: "aksessuar, kozoynak, qora, quyosh, yozgi, uslub"
+            },
+            {
+                id: 18,
+                name: "Tabiiy Charm Erkaklar Kamari",
+                category: "aksessuar",
+                color: "qora",
+                color_hex: "#1e293b",
+                price: 30.0,
+                description: "Mustahkam metall to'qali, 100% tabiiy charmdan qora erkaklar kamari.",
+                image_url: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=600",
+                tags: "aksessuar, kamar, qora, charm, erkaklar, klassik"
+            },
+            {
+                id: 19,
+                name: "Yashil Suv O'tkazmas Sayohat Ryukzaki",
+                category: "aksessuar",
+                color: "yashil",
+                color_hex: "#15803d",
+                price: 45.0,
+                description: "Sayohat va noutbuk ko'tarib yurish uchun qulay yashil sport ryukzaki.",
+                image_url: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
+                tags: "aksessuar, ryukzak, yashil, sayohat, sport, sumka"
+            },
+            {
+                id: 20,
+                name: "Apple AirPods Max Kumushrang Quloqchin",
+                category: "elektronika",
+                color: "kumushrang",
+                color_hex: "#cbd5e1",
+                price: 320.0,
+                description: "Faol shovqinni bekor qiluvchi simsiz premium quloqchin, tiniq ovoz.",
+                image_url: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600",
+                tags: "elektronika, quloqchin, kumushrang, apple, bluetooth, musiqa"
+            },
+            {
+                id: 21,
+                name: "Sport Smart Soat Qora (Waterproof)",
+                category: "elektronika",
+                color: "qora",
+                color_hex: "#020617",
+                price: 80.0,
+                description: "Yurak urishi, qadamlar va uyqu sifatini o'lchovchi suv o'tkazmaydigan smart soat.",
+                image_url: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+                tags: "elektronika, soat, smart soat, qora, sport, fitnes"
+            }
+        ];
+
+        let cart = [];
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        // API dan jonli tovarlarni yuklash
+        async function fetchProductsFromApi() {
+            try {
+                const res = await fetch('/api/v1/products');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.length > 0) {
+                        ALL_PRODUCTS = data;
+                    }
+                }
+            } catch (e) {
+                console.log("API offline, mahalliy ma'lumotlar ishlatilmoqda");
+            }
+            renderProducts();
+        }
+
+        // Tovar kartalarini chizish
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            const countLabel = document.getElementById('productCountLabel');
+
+            let filtered = ALL_PRODUCTS.filter(p => {
+                const matchCat = activeCategory === 'all' || (p.category && p.category.toLowerCase().includes(activeCategory.toLowerCase()));
+                const matchSearch = !searchQuery || 
+                    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (p.tags && p.tags.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                    (p.color && p.color.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchCat && matchSearch;
+            });
+
+            countLabel.textContent = `${filtered.length} ta mahsulot ko'rsatilmoqda`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #94a3b8;">
+                        <div style="font-size: 40px; margin-bottom: 12px;">🔍</div>
+                        <h3 style="color:#fff; margin-bottom:6px;">Hech narsa topilmadi</h3>
+                        <p>Boshqa so'z bilan qidirib ko'ring yoki rasm orqali qidiruvdan foydalaning.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card" onclick="trackView(${p.id})">
+                    <div class="product-image-box">
+                        <img src="${p.image_url || 'https://via.placeholder.com/300'}" alt="${p.name}" loading="lazy">
+                        <span class="badge-category">${p.category || 'Tovar'}</span>
+                        <span class="badge-color">
+                            <span class="color-dot" style="background:${getColorHex(p.color)};"></span>
+                            ${p.color || ''}
+                        </span>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">${p.name}</h3>
+                        <p class="product-desc">${p.description || ''}</p>
+                        <div class="product-footer">
+                            <div class="product-price">$${p.price.toFixed(2)}</div>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${p.id})">
+                                <span>🛒</span>
+                                <span>Savatga</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getColorHex(colorName) {
+            if (!colorName) return '#94a3b8';
+            const c = colorName.toLowerCase();
+            if (c.includes('ko\'k') || c.includes('moviy')) return '#2563eb';
+            if (c.includes('qora')) return '#111827';
+            if (c.includes('oq')) return '#f8fafc';
+            if (c.includes('qizil')) return '#dc2626';
+            if (c.includes('sariq')) return '#eab308';
+            if (c.includes('yashil')) return '#16a34a';
+            if (c.includes('bej')) return '#d4a373';
+            if (c.includes('jigarrang')) return '#78350f';
+            if (c.includes('kumush')) return '#cbd5e1';
+            return '#38bdf8';
+        }
+
+        // Qidiruv maydoni eshituvchisi
+        document.getElementById('storeSearchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            renderProducts();
+        });
+
+        // Kategoriya tugmalari eshituvchisi
+        document.querySelectorAll('.cat-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-cat');
+                renderProducts();
+            });
+        });
+
+        // Savatga qo'shish
+        function addToCart(productId) {
+            const product = ALL_PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(i => i.product.id === productId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`'${product.name}' savatga qo'shildi!`);
+
+            // Analitika event yuborish
+            if (window.VisionAnalytics) {
+                window.VisionAnalytics.track('ADD_TO_CART', product.id, product.name);
+            }
+        }
+
+        // Tovar ko'rilganda VIEW_ITEM event yuborish
+        function trackView(productId) {
+            if (window.VisionAnalytics) {
+                window.VisionAnalytics.track('VIEW_ITEM', productId);
+            }
+        }
+
+        // Savat interfeysini yangilash
+        function updateCartUI() {
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+
+            document.getElementById('cartCountBadge').textContent = totalQty;
+            document.getElementById('cartDrawerCount').textContent = totalQty;
+            document.getElementById('cartTotalPrice').textContent = `$${totalPrice.toFixed(2)}`;
+
+            const listEl = document.getElementById('cartItemsList');
+            if (cart.length === 0) {
+                listEl.innerHTML = `<div style="text-align:center; color:#64748b; margin-top:40px;">Savatingiz hozircha bo'sh.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = cart.map((item, idx) => `
+                <div class="cart-item">
+                    <img src="${item.product.image_url || 'https://via.placeholder.com/50'}" alt="${item.product.name}">
+                    <div class="cart-item-info">
+                        <div style="font-size:13px; font-weight:600; color:#fff;">${item.product.name}</div>
+                        <div style="font-size:12px; color:#38bdf8;">$${item.product.price} &times; ${item.qty}</div>
+                    </div>
+                    <button onclick="removeFromCart(${idx})" style="background:transparent; border:none; color:#ef4444; font-size:16px; cursor:pointer;">&times;</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        // Xaridni rasmiylashtirish (Checkout -> PURCHASE event)
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                alert("Savatingiz bo'sh!");
+                return;
+            }
+
+            // Har bir tovarga PURCHASE event yuborish
+            cart.forEach(item => {
+                if (window.VisionAnalytics) {
+                    window.VisionAnalytics.track('PURCHASE', item.product.id, item.product.name);
+                }
+            });
+
+            alert("🎉 Tabriklaymiz! Buyurtmangiz qabul qilindi. PURCHASE hodisasi marketing analitikasiga yozildi!");
+            cart = [];
+            updateCartUI();
+            document.getElementById('cartOverlay').classList.remove('active');
+        }
+
+        // Savat panelini ochish/yopish
+        document.getElementById('openCartBtn').addEventListener('click', () => {
+            document.getElementById('cartOverlay').classList.add('active');
+        });
+        document.getElementById('closeCartBtn').addEventListener('click', () => {
+            document.getElementById('cartOverlay').classList.remove('active');
+        });
+        document.getElementById('cartOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('cartOverlay')) {
+                document.getElementById('cartOverlay').classList.remove('active');
+            }
+        });
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('storeToast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        window.showStoreToast = showToast;
+
+        // Namunaviy rasm qidirish
+        function searchSample(imgUrl, name) {
+            if (window.VisionWidget) {
+                window.VisionWidget.open();
+                // Namunaviy chipni bosish
+                setTimeout(() => {
+                    const chip = document.querySelector(`.vision-sample-chip[data-name*="${name}"]`) || document.querySelector('.vision-sample-chip');
+                    if (chip) chip.click();
+                }, 100);
+            }
+        }
+
+        // Sahifa yuklanganda
+        fetchProductsFromApi();
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Python bytecode va keshlar
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Maxfiy ma'lumotlar va API kalitlar (.env faylini GitHub'ga chiqarmaslik uchun)
+.env
+.env.local
+.env.*.local
+
+# Virtual muhit (Virtual Environments)
+my_env/
+venv/
+env/
+.venv/
+ENV/
+
+# Ma'lumotlar bazasi va SQLite lokal fayllari
+*.sqlite
+*.sqlite3
+*.db
+store.db
+
+# IDE va tahrirlovchi fayllari
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Loglar va vaqtinchalik fayllar
+*.log
+.system_generated/
